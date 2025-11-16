@@ -42,7 +42,7 @@ pip install requests
 
 ### Running the Application
 ```bash
-python json_parser.py
+python main.py
 ```
 
 ## 📱 Usage
