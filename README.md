@@ -228,7 +228,179 @@ Attribute: address.city
 **Input URL:** `https://api.example.com/complex-data`
 
 **JSON Response:**
-```json
+```jsonJSON Parser - GUI Application
+<div align="center">
+
+https://img.shields.io/badge/Python-3.6%252B-blue
+https://img.shields.io/badge/GUI-Tkinter-green
+https://img.shields.io/badge/Data-JSON-orange
+
+A simple graphical application for parsing JSON data from web sources
+</div>
+📖 Table of Contents
+
+    Overview
+
+    Features
+
+    Installation
+
+    Usage
+
+    Code Explanation
+
+    Examples
+
+    Error Handling
+
+🎯 Overview
+
+JSON Parser is a user-friendly desktop application that allows you to:
+
+    Fetch JSON data from any public API or web source
+
+    Search for specific attributes within complex JSON structures
+
+    Display results in a clean, scrollable interface
+
+✨ Features
+Feature	Description
+🔗 URL Support	Fetch JSON from any HTTP/HTTPS endpoint
+🔍 Deep Search	Recursive search through nested JSON structures
+📋 Multiple Attributes	Search for multiple attributes at once
+🎨 Simple GUI	Easy-to-use Tkinter interface
+⚡ Quick Results	Fast parsing and display
+🛡 Error Handling	Comprehensive error messages
+🚀 Installation
+Prerequisites
+
+    Python 3.6 or higher
+
+    Internet connection (for fetching JSON data)
+
+Required Libraries
+bash
+
+pip install requests
+
+Running the Application
+bash
+
+python json_parser.py
+
+📱 Usage
+Step-by-Step Guide
+
+    Enter JSON URL
+
+        Paste the URL containing JSON data
+
+        Example: https://api.example.com/data
+
+    Specify Attributes
+
+        Enter attributes separated by commas
+
+        Support for nested paths using dots
+
+        Examples:
+
+            Simple: name, email, phone
+
+            Nested: user.profile.name, address.city
+
+    Parse Data
+
+        Click the "Parse" button
+
+        View results in the output area
+
+    Quick Test
+
+        Use the "Example" button to load test data
+
+Interface Overview
+text
+
+┌─────────────────────────────────────────────────┐
+│            JSON Parser - GUI Application        │
+├─────────────────────────────────────────────────┤
+│ URL with JSON data:                             │
+│ [https://api.example.com/data             ]     │
+│                                                 │
+│ Attributes (comma separated):                   │
+│ [name, email, address.city                ]     │
+│                                                 │
+│             [ Parse ]  [ Example ]              │
+│                                                 │
+│ ┌─────────────────────────────────────────────┐ │
+│ │ Results:                                    │ │
+│ │ ========================================    │ │
+│ │ Attribute: name                             │ │
+│ │   ✓ John Doe                                │ │
+│ │   ✓ Jane Smith                              │ │
+│ │                                             │ │
+│ │ Attribute: email                            │ │
+│ │   ✓ john@example.com                        │ │
+│ │   ✓ jane@example.com                        │ │
+│ │                                             │ │
+│ │ Attribute: address.city                     │ │
+│ │   ✓ New York                                │ │
+│ │   ✓ Los Angeles                             │ │
+│ └─────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────┘
+
+🔧 Code Explanation
+Main Components
+1. Core Parsing Function
+python
+
+def parse_json():
+    # Clear previous results
+    output_text.delete(1.0, tk.END)
+    
+    # Get user input
+    url = input_link.get()
+    attributes = input_attribute.get()
+    
+    # Input validation
+    if not url or not attributes:
+        output_text.insert(tk.END, "Please fill all fields!\n")
+        return
+
+2. Recursive Search Algorithm
+python
+
+def search_in_json(obj, path):
+    results = []
+    keys = path.split('.')  # Split path into components
+    
+    if isinstance(obj, dict):
+        # Case 1: Current object is a dictionary
+        if keys[0] in obj:
+            if len(keys) == 1:
+                # Final key - add value to results
+                results.append(obj[keys[0]])
+            else:
+                # Nested keys - recursive search
+                nested_path = '.'.join(keys[1:])
+                nested_results = search_in_json(obj[keys[0]], nested_path)
+                results.extend(nested_results)
+        
+        # Search in all dictionary values
+        for value in obj.values():
+            if isinstance(value, (dict, list)):
+                results.extend(search_in_json(value, path))
+                
+    elif isinstance(obj, list):
+        # Case 2: Current object is a list
+        for item in obj:
+            if isinstance(item, (dict, list)):
+                results.extend(search_in_json(item, path))
+    
+    return results
+
+Search Algorithm Flowchart
 {
     "users": [
         {
@@ -285,7 +457,351 @@ Change the number of displayed results:
 # Current: Show first 5 values
 for val in values[:5]:
     output_text.insert(tk.END, f"  ✓ {val}\n")
+JSON Parser - GUI Application
+<div align="center">
 
+https://img.shields.io/badge/Python-3.6%252B-blue
+https://img.shields.io/badge/GUI-Tkinter-green
+https://img.shields.io/badge/Data-JSON-orange
+
+A simple graphical application for parsing JSON data from web sources
+</div>
+📖 Table of Contents
+
+    Overview
+
+    Features
+
+    Installation
+
+    Usage
+
+    Code Explanation
+
+    Examples
+
+    Error Handling
+
+🎯 Overview
+
+JSON Parser is a user-friendly desktop application that allows you to:
+
+    Fetch JSON data from any public API or web source
+
+    Search for specific attributes within complex JSON structures
+
+    Display results in a clean, scrollable interface
+
+✨ Features
+Feature	Description
+🔗 URL Support	Fetch JSON from any HTTP/HTTPS endpoint
+🔍 Deep Search	Recursive search through nested JSON structures
+📋 Multiple Attributes	Search for multiple attributes at once
+🎨 Simple GUI	Easy-to-use Tkinter interface
+⚡ Quick Results	Fast parsing and display
+🛡 Error Handling	Comprehensive error messages
+🚀 Installation
+Prerequisites
+
+    Python 3.6 or higher
+
+    Internet connection (for fetching JSON data)
+
+Required Libraries
+bash
+
+pip install requests
+
+Running the Application
+bash
+
+python json_parser.py
+
+📱 Usage
+Step-by-Step Guide
+
+    Enter JSON URL
+
+        Paste the URL containing JSON data
+
+        Example: https://api.example.com/data
+
+    Specify Attributes
+
+        Enter attributes separated by commas
+
+        Support for nested paths using dots
+
+        Examples:
+
+            Simple: name, email, phone
+
+            Nested: user.profile.name, address.city
+
+    Parse Data
+
+        Click the "Parse" button
+
+        View results in the output area
+
+    Quick Test
+
+        Use the "Example" button to load test data
+
+Interface Overview
+text
+
+┌─────────────────────────────────────────────────┐
+│            JSON Parser - GUI Application        │
+├─────────────────────────────────────────────────┤
+│ URL with JSON data:                             │
+│ [https://api.example.com/data             ]     │
+│                                                 │
+│ Attributes (comma separated):                   │
+│ [name, email, address.city                ]     │
+│                                                 │
+│             [ Parse ]  [ Example ]              │
+│                                                 │
+│ ┌─────────────────────────────────────────────┐ │
+│ │ Results:                                    │ │
+│ │ ========================================    │ │
+│ │ Attribute: name                             │ │
+│ │   ✓ John Doe                                │ │
+│ │   ✓ Jane Smith                              │ │
+│ │                                             │ │
+│ │ Attribute: email                            │ │
+│ │   ✓ john@example.com                        │ │
+│ │   ✓ jane@example.com                        │ │
+│ │                                             │ │
+│ │ Attribute: address.city                     │ │
+│ │   ✓ New York                                │ │
+│ │   ✓ Los Angeles                             │ │
+│ └─────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────┘
+
+🔧 Code Explanation
+Main Components
+1. Core Parsing Function
+python
+
+def parse_json():
+    # Clear previous results
+    output_text.delete(1.0, tk.END)
+    
+    # Get user input
+    url = input_link.get()
+    attributes = input_attribute.get()
+    
+    # Input validation
+    if not url or not attributes:
+        output_text.insert(tk.END, "Please fill all fields!\n")
+        return
+
+2. Recursive Search Algorithm
+python
+
+def search_in_json(obj, path):
+    results = []
+    keys = path.split('.')  # Split path into components
+    
+    if isinstance(obj, dict):
+        # Case 1: Current object is a dictionary
+        if keys[0] in obj:
+            if len(keys) == 1:
+                # Final key - add value to results
+                results.append(obj[keys[0]])
+            else:
+                # Nested keys - recursive search
+                nested_path = '.'.join(keys[1:])
+                nested_results = search_in_json(obj[keys[0]], nested_path)
+                results.extend(nested_results)
+        
+        # Search in all dictionary values
+        for value in obj.values():
+            if isinstance(value, (dict, list)):
+                results.extend(search_in_json(value, path))
+                
+    elif isinstance(obj, list):
+        # Case 2: Current object is a listJSON Parser - GUI Application
+<div align="center">
+
+https://img.shields.io/badge/Python-3.6%252B-blue
+https://img.shields.io/badge/GUI-Tkinter-green
+https://img.shields.io/badge/Data-JSON-orange
+
+A simple graphical application for parsing JSON data from web sources
+</div>
+📖 Table of Contents
+
+    Overview
+
+    Features
+
+    Installation
+
+    Usage
+
+    Code Explanation
+
+    Examples
+
+    Error Handling
+
+🎯 Overview
+
+JSON Parser is a user-friendly desktop application that allows you to:
+
+    Fetch JSON data from any public API or web source
+
+    Search for specific attributes within complex JSON structures
+
+    Display results in a clean, scrollable interface
+
+✨ Features
+Feature	Description
+🔗 URL Support	Fetch JSON from any HTTP/HTTPS endpoint
+🔍 Deep Search	Recursive search through nested JSON structures
+📋 Multiple Attributes	Search for multiple attributes at once
+🎨 Simple GUI	Easy-to-use Tkinter interface
+⚡ Quick Results	Fast parsing and display
+🛡 Error Handling	Comprehensive error messages
+🚀 Installation
+Prerequisites
+
+    Python 3.6 or higher
+
+    Internet connection (for fetching JSON data)
+
+Required Libraries
+bash
+
+pip install requests
+
+Running the Application
+bash
+
+python json_parser.py
+
+📱 Usage
+Step-by-Step Guide
+
+    Enter JSON URL
+
+        Paste the URL containing JSON data
+
+        Example: https://api.example.com/data
+
+    Specify Attributes
+
+        Enter attributes separated by commas
+
+        Support for nested paths using dots
+
+        Examples:
+
+            Simple: name, email, phone
+
+            Nested: user.profile.name, address.city
+
+    Parse Data
+
+        Click the "Parse" button
+
+        View results in the output area
+
+    Quick Test
+
+        Use the "Example" button to load test data
+
+Interface Overview
+text
+
+┌─────────────────────────────────────────────────┐
+│            JSON Parser - GUI Application        │
+├─────────────────────────────────────────────────┤
+│ URL with JSON data:                             │
+│ [https://api.example.com/data             ]     │
+│                                                 │
+│ Attributes (comma separated):                   │
+│ [name, email, address.city                ]     │
+│                                                 │
+│             [ Parse ]  [ Example ]              │
+│                                                 │
+│ ┌─────────────────────────────────────────────┐ │
+│ │ Results:                                    │ │
+│ │ ========================================    │ │
+│ │ Attribute: name                             │ │
+│ │   ✓ John Doe                                │ │
+│ │   ✓ Jane Smith                              │ │
+│ │                                             │ │
+│ │ Attribute: email                            │ │
+│ │   ✓ john@example.com                        │ │
+│ │   ✓ jane@example.com                        │ │
+│ │                                             │ │
+│ │ Attribute: address.city                     │ │
+│ │   ✓ New York                                │ │
+│ │   ✓ Los Angeles                             │ │
+│ └─────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────┘
+
+🔧 Code Explanation
+Main Components
+1. Core Parsing Function
+python
+
+def parse_json():
+    # Clear previous results
+    output_text.delete(1.0, tk.END)
+    
+    # Get user input
+    url = input_link.get()
+    attributes = input_attribute.get()
+    
+    # Input validation
+    if not url or not attributes:
+        output_text.insert(tk.END, "Please fill all fields!\n")
+        return
+
+2. Recursive Search Algorithm
+python
+
+def search_in_json(obj, path):
+    results = []
+    keys = path.split('.')  # Split path into components
+    
+    if isinstance(obj, dict):
+        # Case 1: Current object is a dictionary
+        if keys[0] in obj:
+            if len(keys) == 1:
+                # Final key - add value to results
+                results.append(obj[keys[0]])
+            else:
+                # Nested keys - recursive search
+                nested_path = '.'.join(keys[1:])
+                nested_results = search_in_json(obj[keys[0]], nested_path)
+                results.extend(nested_results)
+        
+        # Search in all dictionary values
+        for value in obj.values():
+            if isinstance(value, (dict, list)):
+                results.extend(search_in_json(value, path))
+                
+    elif isinstance(obj, list):
+        # Case 2: Current object is a list
+        for item in obj:
+            if isinstance(item, (dict, list)):
+                results.extend(search_in_json(item, path))
+    
+    return results
+
+Search Algorithm Flowchart
+        for item in obj:
+            if isinstance(item, (dict, list)):
+                results.extend(search_in_json(item, path))
+    
+    return results
+
+Search Algorithm Flowchart
 # Modified: Show first 10 values
 for val in values[:10]:
     output_text.insert(tk.END, f"  ✓ {val}\n")
@@ -306,11 +822,6 @@ Feel free to:
 - Submit pull requests
 - Improve documentation
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
 
 <div align="center">
 
