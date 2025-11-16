@@ -10,15 +10,6 @@
 
 </div>
 
-## 📖 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Code Explanation](#code-explanation)
-- [Examples](#examples)
-- [Error Handling](#error-handling)
 
 ## 🎯 Overview
 
