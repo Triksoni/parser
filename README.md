@@ -1,821 +1,369 @@
-# JSON Parser - GUI Application
+# Universal Data Parser - Документация
 
-<div align="center">
+## 📖 Оглавление
+1. [Описание проекта](#описание-проекта)
+2. [Возможности](#возможности)
+3. [Установка и запуск](#установка-и-запуск)
+4. [Архитектура проекта](#архитектура-проекта)
+5. [Детальное описание кода](#детальное-описание-кода)
+6. [Примеры использования](#примеры-использования)
+7. [Требования](#требования)
+8. [Вклад в проект](#вклад-в-проект)
+9. [Лицензия](#лицензия)
 
-![Python](https://img.shields.io/badge/Python-3.6%2B-blue)
-![GUI](https://img.shields.io/badge/GUI-Tkinter-green)
-![JSON](https://img.shields.io/badge/Data-JSON-orange)
+## 🚀 Описание проекта
 
-**A simple graphical application for parsing JSON data from web sources**
+**Universal Data Parser** - это мощное десктопное приложение на Python с графическим интерфейсом, предназначенное для парсинга и анализа данных в различных форматах. Программа позволяет извлекать структурированную информацию из HTML, XML и JSON данных, поступающих как из веб-ссылок, так и из локальных файлов.
 
-</div>
+### 🎯 Цели проекта
+- Предоставить универсальный инструмент для работы с разными форматами данных
+- Упростить процесс извлечения конкретных элементов из сложных структур
+- Обеспечить удобный графический интерфейс для непрограммистов
+- Поддерживать как онлайн, так и офлайн режимы работы
 
+## ✨ Возможности
 
-## 🎯 Overview
+### 📊 Поддерживаемые форматы данных
+- **HTML**: Парсинг веб-страниц с поддержкой CSS-селекторов
+- **XML**: Анализ XML документов с XPath-подобными запросами
+- **JSON**: Извлечение данных из JSON структур
 
-JSON Parser is a user-friendly desktop application that allows you to:
-- Fetch JSON data from any public API or web source
-- Search for specific attributes within complex JSON structures
-- Display results in a clean, scrollable interface
+### 🌐 Источники данных
+- **URL**: Загрузка данных по HTTP/HTTPS ссылкам
+- **Локальные файлы**: Работа с файлами на компьютере пользователя
 
-## ✨ Features
+### 🔍 Расширенные возможности поиска
+- **HTML**: Поиск по тегам, классам, ID и атрибутам
+- **XML**: Поддержка простых XPath запросов
+- **JSON**: Рекурсивный поиск по ключам и структурам
 
-| Feature | Description |
-|---------|-------------|
-| 🔗 **URL Support** | Fetch JSON from any HTTP/HTTPS endpoint |
-| 🔍 **Deep Search** | Recursive search through nested JSON structures |
-| 📋 **Multiple Attributes** | Search for multiple attributes at once |
-| 🎨 **Simple GUI** | Easy-to-use Tkinter interface |
-| ⚡ **Quick Results** | Fast parsing and display |
-| 🛡 **Error Handling** | Comprehensive error messages |
+## 🛠 Установка и запуск
 
-## 🚀 Installation
+### Предварительные требования
+- Python 3.7 или выше
+- pip (менеджер пакетов Python)
 
-### Prerequisites
-- Python 3.6 or higher
-- Internet connection (for fetching JSON data)
+### Шаги установки
 
-### Required Libraries
+1. **Клонирование репозитория**
 ```bash
-pip install requests
+git clone https://github.com/yourusername/universal-data-parser.git
+cd universal-data-parser
 ```
 
-### Running the Application
+2. **Установка зависимостей**
+```bash
+pip install -r requirements.txt
+```
+
+3. **Запуск приложения**
 ```bash
 python main.py
 ```
 
-## 📱 Usage
-
-### Step-by-Step Guide
-
-1. **Enter JSON URL**
-   - Paste the URL containing JSON data
-   - Example: `https://api.example.com/data`
-
-2. **Specify Attributes**
-   - Enter attributes separated by commas
-   - Support for nested paths using dots
-   - Examples:
-     - Simple: `name, email, phone`
-     - Nested: `user.profile.name, address.city`
-
-3. **Parse Data**
-   - Click the "Parse" button
-   - View results in the output area
-
-4. **Quick Test**
-   - Use the "Example" button to load test data
-
-### Interface Overview
-
-```
-┌─────────────────────────────────────────────────┐
-│            JSON Parser - GUI Application        │
-├─────────────────────────────────────────────────┤
-│ URL with JSON data:                             │
-│ [https://api.example.com/data             ]     │
-│                                                 │
-│ Attributes (comma separated):                   │
-│ [name, email, address.city                ]     │
-│                                                 │
-│             [ Parse ]  [ Example ]              │
-│                                                 │
-│ ┌─────────────────────────────────────────────┐ │
-│ │ Results:                                    │ │
-│ │ ========================================    │ │
-│ │ Attribute: name                             │ │
-│ │   ✓ John Doe                                │ │
-│ │   ✓ Jane Smith                              │ │
-│ │                                             │ │
-│ │ Attribute: email                            │ │
-│ │   ✓ john@example.com                        │ │
-│ │   ✓ jane@example.com                        │ │
-│ │                                             │ │
-│ │ Attribute: address.city                     │ │
-│ │   ✓ New York                                │ │
-│ │   ✓ Los Angeles                             │ │
-│ └─────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────┘
+### Файл requirements.txt
+```txt
+beautifulsoup4==4.12.2
+requests==2.31.0
+lxml==4.9.3
 ```
 
-## 🔧 Code Explanation
+## 🏗 Архитектура проекта
 
-### Main Components
+### Структура классов
+```
+ParserApp (main class)
+├── setup_ui() - создание интерфейса
+├── parse_data() - главная функция парсинга
+├── Парсеры:
+│   ├── parse_html()
+│   ├── parse_xml()
+│   └── parse_json()
+└── Форматтеры:
+    ├── format_html_result()
+    ├── format_xml_result()
+    └── format_json_result()
+```
 
-#### 1. Core Parsing Function
+### Модули и зависимости
+- **tkinter**: Графический интерфейс
+- **BeautifulSoup4**: Парсинг HTML
+- **requests**: HTTP запросы
+- **xml.etree.ElementTree**: Парсинг XML
+- **json**: Работа с JSON
+
+## 📋 Детальное описание кода
+
+### 1. Инициализация и настройка UI
+
 ```python
-def parse_json():
-    # Clear previous results
-    output_text.delete(1.0, tk.END)
-    
-    # Get user input
-    url = input_link.get()
-    attributes = input_attribute.get()
-    
-    # Input validation
-    if not url or not attributes:
-        output_text.insert(tk.END, "Please fill all fields!\n")
-        return
+class ParserApp:
+    def __init__(self, root):
+        self.root = root
+        self.setup_ui()
+        
+    def setup_ui(self):
+        # Переменные для управления состоянием
+        self.data_type = tk.StringVar(value="html")
+        self.source_type = tk.StringVar(value="url")
+        
+        # Создание основных контейнеров
+        main_frame = tk.Frame(self.root, padx=10, pady=10)
+        main_frame.pack(fill=tk.BOTH, expand=True)
 ```
 
-#### 2. Recursive Search Algorithm
+**Назначение**: 
+- `data_type` хранит выбранный тип данных (html/xml/json)
+- `source_type` определяет источник (url/file)
+- Создается иерархия фреймов для организации интерфейса
+
+### 2. Динамический интерфейс
+
 ```python
-def search_in_json(obj, path):
-    results = []
-    keys = path.split('.')  # Split path into components
-    
-    if isinstance(obj, dict):
-        # Case 1: Current object is a dictionary
-        if keys[0] in obj:
-            if len(keys) == 1:
-                # Final key - add value to results
-                results.append(obj[keys[0]])
-            else:
-                # Nested keys - recursive search
-                nested_path = '.'.join(keys[1:])
-                nested_results = search_in_json(obj[keys[0]], nested_path)
-                results.extend(nested_results)
+def setup_input_widgets(self):
+    # Очистка предыдущих виджетов
+    for widget in self.input_frame.winfo_children():
+        widget.destroy()
         
-        # Search in all dictionary values
-        for value in obj.values():
-            if isinstance(value, (dict, list)):
-                results.extend(search_in_json(value, path))
-                
-    elif isinstance(obj, list):
-        # Case 2: Current object is a list
-        for item in obj:
-            if isinstance(item, (dict, list)):
-                results.extend(search_in_json(item, path))
-    
-    return results
+    if self.source_type.get() == "url":
+        # Создание поля для URL
+        self.url_entry = tk.Entry(self.input_frame, width=80)
+    else:
+        # Создание поля для файла + кнопка обзора
+        self.file_entry = tk.Entry(file_frame, width=70)
+        tk.Button(file_frame, text="Обзор", command=self.browse_file)
 ```
 
-### Search Algorithm Flowchart
+**Особенности**:
+- Интерфейс адаптируется под выбор пользователя
+- Автоматическая очистка старых виджетов предотвращает наложение элементов
+- Интеграция с системным диалогом выбора файлов
 
-```mermaid
-graph TD
-    A[Start Search] --> B{Split path by '.'};
-    B --> C{Object Type?};
-    C -->|Dictionary| D{Key exists?};
-    C -->|List| E[Iterate items];
-    C -->|Other| F[Return empty];
-    
-    D -->|Yes| G{Single key?};
-    D -->|No| H[Search values];
-    
-    G -->|Yes| I[Add to results];
-    G -->|No| J[Recursive search];
-    
-    E --> K{Item is dict/list?};
-    K -->|Yes| L[Recursive search];
-    K -->|No| M[Skip];
-    
-    H --> N[Return results];
-    I --> N;
-    J --> N;
-    L --> N;
-    F --> N;
-```
+### 3. Загрузка данных
 
-## 📊 Examples
-
-### Example 1: Simple JSON Structure
-
-**Input URL:** `https://jsonplaceholder.typicode.com/users/1`
-
-**JSON Response:**
-```json
-{
-    "id": 1,
-    "name": "Leanne Graham",
-    "email": "Sincere@april.biz",
-    "address": {
-        "street": "Kulas Light",
-        "city": "Gwenborough"
-    }
-}
-```
-
-**Attributes to Search:** `name, email, address.city`
-
-**Output:**
-```
-Results:
-========================================
-
-Attribute: name
-  ✓ Leanne Graham
-
-Attribute: email
-  ✓ Sincere@april.biz
-
-Attribute: address.city
-  ✓ Gwenborough
-```
-
-### Example 2: Complex Nested Structure
-
-**Input URL:** `https://api.example.com/complex-data`
-
-**JSON Response:**
-```jsonJSON Parser - GUI Application
-<div align="center">
-
-https://img.shields.io/badge/Python-3.6%252B-blue
-https://img.shields.io/badge/GUI-Tkinter-green
-https://img.shields.io/badge/Data-JSON-orange
-
-A simple graphical application for parsing JSON data from web sources
-</div>
-📖 Table of Contents
-
-    Overview
-
-    Features
-
-    Installation
-
-    Usage
-
-    Code Explanation
-
-    Examples
-
-    Error Handling
-
-🎯 Overview
-
-JSON Parser is a user-friendly desktop application that allows you to:
-
-    Fetch JSON data from any public API or web source
-
-    Search for specific attributes within complex JSON structures
-
-    Display results in a clean, scrollable interface
-
-✨ Features
-Feature	Description
-🔗 URL Support	Fetch JSON from any HTTP/HTTPS endpoint
-🔍 Deep Search	Recursive search through nested JSON structures
-📋 Multiple Attributes	Search for multiple attributes at once
-🎨 Simple GUI	Easy-to-use Tkinter interface
-⚡ Quick Results	Fast parsing and display
-🛡 Error Handling	Comprehensive error messages
-🚀 Installation
-Prerequisites
-
-    Python 3.6 or higher
-
-    Internet connection (for fetching JSON data)
-
-Required Libraries
-bash
-
-pip install requests
-
-Running the Application
-bash
-
-python json_parser.py
-
-📱 Usage
-Step-by-Step Guide
-
-    Enter JSON URL
-
-        Paste the URL containing JSON data
-
-        Example: https://api.example.com/data
-
-    Specify Attributes
-
-        Enter attributes separated by commas
-
-        Support for nested paths using dots
-
-        Examples:
-
-            Simple: name, email, phone
-
-            Nested: user.profile.name, address.city
-
-    Parse Data
-
-        Click the "Parse" button
-
-        View results in the output area
-
-    Quick Test
-
-        Use the "Example" button to load test data
-
-Interface Overview
-text
-
-┌─────────────────────────────────────────────────┐
-│            JSON Parser - GUI Application        │
-├─────────────────────────────────────────────────┤
-│ URL with JSON data:                             │
-│ [https://api.example.com/data             ]     │
-│                                                 │
-│ Attributes (comma separated):                   │
-│ [name, email, address.city                ]     │
-│                                                 │
-│             [ Parse ]  [ Example ]              │
-│                                                 │
-│ ┌─────────────────────────────────────────────┐ │
-│ │ Results:                                    │ │
-│ │ ========================================    │ │
-│ │ Attribute: name                             │ │
-│ │   ✓ John Doe                                │ │
-│ │   ✓ Jane Smith                              │ │
-│ │                                             │ │
-│ │ Attribute: email                            │ │
-│ │   ✓ john@example.com                        │ │
-│ │   ✓ jane@example.com                        │ │
-│ │                                             │ │
-│ │ Attribute: address.city                     │ │
-│ │   ✓ New York                                │ │
-│ │   ✓ Los Angeles                             │ │
-│ └─────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────┘
-
-🔧 Code Explanation
-Main Components
-1. Core Parsing Function
-python
-
-def parse_json():
-    # Clear previous results
-    output_text.delete(1.0, tk.END)
-    
-    # Get user input
-    url = input_link.get()
-    attributes = input_attribute.get()
-    
-    # Input validation
-    if not url or not attributes:
-        output_text.insert(tk.END, "Please fill all fields!\n")
-        return
-
-2. Recursive Search Algorithm
-python
-
-def search_in_json(obj, path):
-    results = []
-    keys = path.split('.')  # Split path into components
-    
-    if isinstance(obj, dict):
-        # Case 1: Current object is a dictionary
-        if keys[0] in obj:
-            if len(keys) == 1:
-                # Final key - add value to results
-                results.append(obj[keys[0]])
-            else:
-                # Nested keys - recursive search
-                nested_path = '.'.join(keys[1:])
-                nested_results = search_in_json(obj[keys[0]], nested_path)
-                results.extend(nested_results)
-        
-        # Search in all dictionary values
-        for value in obj.values():
-            if isinstance(value, (dict, list)):
-                results.extend(search_in_json(value, path))
-                
-    elif isinstance(obj, list):
-        # Case 2: Current object is a list
-        for item in obj:
-            if isinstance(item, (dict, list)):
-                results.extend(search_in_json(item, path))
-    
-    return results
-
-Search Algorithm Flowchart
-{
-    "users": [
-        {
-            "profile": {
-                "personal": {
-                    "name": "John Doe",
-                    "contacts": {
-                        "email": "john@example.com",
-                        "phone": "+1234567890"
-                    }
-                }
-            }
-        }
-    ]
-}
-```
-
-**Attributes to Search:** `profile.personal.name, profile.personal.contacts.email`
-
-**Output:**
-```
-Results:
-========================================
-
-Attribute: profile.personal.name
-  ✓ John Doe
-
-Attribute: profile.personal.contacts.email
-  ✓ john@example.com
-```
-
-## ⚠️ Error Handling
-
-The application handles various error scenarios:
-
-| Error Type | Handling |
-|------------|----------|
-| **Network Issues** | Shows connection error messages |
-| **Invalid JSON** | Displays parsing errors |
-| **Empty Fields** | Prompts user to fill required fields |
-| **Missing Attributes** | Shows "Not found" for missing data |
-| **Invalid URL** | Displays request exceptions |
-
-### Common Error Messages
-- `"Please fill all fields!"` - Missing URL or attributes
-- `"Error: [details]"` - Network or parsing errors
-- `"✗ Not found"` - Attribute doesn't exist in JSON
-
-## 🎨 Customization
-
-### Modifying Display Limits
-Change the number of displayed results:
 ```python
-# Current: Show first 5 values
-for val in values[:5]:
-    output_text.insert(tk.END, f"  ✓ {val}\n")
-JSON Parser - GUI Application
-<div align="center">
-
-https://img.shields.io/badge/Python-3.6%252B-blue
-https://img.shields.io/badge/GUI-Tkinter-green
-https://img.shields.io/badge/Data-JSON-orange
-
-A simple graphical application for parsing JSON data from web sources
-</div>
-📖 Table of Contents
-
-    Overview
-
-    Features
-
-    Installation
-
-    Usage
-
-    Code Explanation
-
-    Examples
-
-    Error Handling
-
-🎯 Overview
-
-JSON Parser is a user-friendly desktop application that allows you to:
-
-    Fetch JSON data from any public API or web source
-
-    Search for specific attributes within complex JSON structures
-
-    Display results in a clean, scrollable interface
-
-✨ Features
-Feature	Description
-🔗 URL Support	Fetch JSON from any HTTP/HTTPS endpoint
-🔍 Deep Search	Recursive search through nested JSON structures
-📋 Multiple Attributes	Search for multiple attributes at once
-🎨 Simple GUI	Easy-to-use Tkinter interface
-⚡ Quick Results	Fast parsing and display
-🛡 Error Handling	Comprehensive error messages
-🚀 Installation
-Prerequisites
-
-    Python 3.6 or higher
-
-    Internet connection (for fetching JSON data)
-
-Required Libraries
-bash
-
-pip install requests
-
-Running the Application
-bash
-
-python json_parser.py
-
-📱 Usage
-Step-by-Step Guide
-
-    Enter JSON URL
-
-        Paste the URL containing JSON data
-
-        Example: https://api.example.com/data
-
-    Specify Attributes
-
-        Enter attributes separated by commas
-
-        Support for nested paths using dots
-
-        Examples:
-
-            Simple: name, email, phone
-
-            Nested: user.profile.name, address.city
-
-    Parse Data
-
-        Click the "Parse" button
-
-        View results in the output area
-
-    Quick Test
-
-        Use the "Example" button to load test data
-
-Interface Overview
-text
-
-┌─────────────────────────────────────────────────┐
-│            JSON Parser - GUI Application        │
-├─────────────────────────────────────────────────┤
-│ URL with JSON data:                             │
-│ [https://api.example.com/data             ]     │
-│                                                 │
-│ Attributes (comma separated):                   │
-│ [name, email, address.city                ]     │
-│                                                 │
-│             [ Parse ]  [ Example ]              │
-│                                                 │
-│ ┌─────────────────────────────────────────────┐ │
-│ │ Results:                                    │ │
-│ │ ========================================    │ │
-│ │ Attribute: name                             │ │
-│ │   ✓ John Doe                                │ │
-│ │   ✓ Jane Smith                              │ │
-│ │                                             │ │
-│ │ Attribute: email                            │ │
-│ │   ✓ john@example.com                        │ │
-│ │   ✓ jane@example.com                        │ │
-│ │                                             │ │
-│ │ Attribute: address.city                     │ │
-│ │   ✓ New York                                │ │
-│ │   ✓ Los Angeles                             │ │
-│ └─────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────┘
-
-🔧 Code Explanation
-Main Components
-1. Core Parsing Function
-python
-
-def parse_json():
-    # Clear previous results
-    output_text.delete(1.0, tk.END)
-    
-    # Get user input
-    url = input_link.get()
-    attributes = input_attribute.get()
-    
-    # Input validation
-    if not url or not attributes:
-        output_text.insert(tk.END, "Please fill all fields!\n")
-        return
-
-2. Recursive Search Algorithm
-python
-
-def search_in_json(obj, path):
-    results = []
-    keys = path.split('.')  # Split path into components
-    
-    if isinstance(obj, dict):
-        # Case 1: Current object is a dictionary
-        if keys[0] in obj:
-            if len(keys) == 1:
-                # Final key - add value to results
-                results.append(obj[keys[0]])
-            else:
-                # Nested keys - recursive search
-                nested_path = '.'.join(keys[1:])
-                nested_results = search_in_json(obj[keys[0]], nested_path)
-                results.extend(nested_results)
+def get_data_content(self):
+    if source_type == "url":
+        response = requests.get(url)
+        response.raise_for_status()  # Проверка HTTP ошибок
         
-        # Search in all dictionary values
-        for value in obj.values():
-            if isinstance(value, (dict, list)):
-                results.extend(search_in_json(value, path))
-                
-    elif isinstance(obj, list):
-        # Case 2: Current object is a listJSON Parser - GUI Application
-<div align="center">
-
-https://img.shields.io/badge/Python-3.6%252B-blue
-https://img.shields.io/badge/GUI-Tkinter-green
-https://img.shields.io/badge/Data-JSON-orange
-
-A simple graphical application for parsing JSON data from web sources
-</div>
-📖 Table of Contents
-
-    Overview
-
-    Features
-
-    Installation
-
-    Usage
-
-    Code Explanation
-
-    Examples
-
-    Error Handling
-
-🎯 Overview
-
-JSON Parser is a user-friendly desktop application that allows you to:
-
-    Fetch JSON data from any public API or web source
-
-    Search for specific attributes within complex JSON structures
-
-    Display results in a clean, scrollable interface
-
-✨ Features
-Feature	Description
-🔗 URL Support	Fetch JSON from any HTTP/HTTPS endpoint
-🔍 Deep Search	Recursive search through nested JSON structures
-📋 Multiple Attributes	Search for multiple attributes at once
-🎨 Simple GUI	Easy-to-use Tkinter interface
-⚡ Quick Results	Fast parsing and display
-🛡 Error Handling	Comprehensive error messages
-🚀 Installation
-Prerequisites
-
-    Python 3.6 or higher
-
-    Internet connection (for fetching JSON data)
-
-Required Libraries
-bash
-
-pip install requests
-
-Running the Application
-bash
-
-python json_parser.py
-
-📱 Usage
-Step-by-Step Guide
-
-    Enter JSON URL
-
-        Paste the URL containing JSON data
-
-        Example: https://api.example.com/data
-
-    Specify Attributes
-
-        Enter attributes separated by commas
-
-        Support for nested paths using dots
-
-        Examples:
-
-            Simple: name, email, phone
-
-            Nested: user.profile.name, address.city
-
-    Parse Data
-
-        Click the "Parse" button
-
-        View results in the output area
-
-    Quick Test
-
-        Use the "Example" button to load test data
-
-Interface Overview
-text
-
-┌─────────────────────────────────────────────────┐
-│            JSON Parser - GUI Application        │
-├─────────────────────────────────────────────────┤
-│ URL with JSON data:                             │
-│ [https://api.example.com/data             ]     │
-│                                                 │
-│ Attributes (comma separated):                   │
-│ [name, email, address.city                ]     │
-│                                                 │
-│             [ Parse ]  [ Example ]              │
-│                                                 │
-│ ┌─────────────────────────────────────────────┐ │
-│ │ Results:                                    │ │
-│ │ ========================================    │ │
-│ │ Attribute: name                             │ │
-│ │   ✓ John Doe                                │ │
-│ │   ✓ Jane Smith                              │ │
-│ │                                             │ │
-│ │ Attribute: email                            │ │
-│ │   ✓ john@example.com                        │ │
-│ │   ✓ jane@example.com                        │ │
-│ │                                             │ │
-│ │ Attribute: address.city                     │ │
-│ │   ✓ New York                                │ │
-│ │   ✓ Los Angeles                             │ │
-│ └─────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────┘
-
-🔧 Code Explanation
-Main Components
-1. Core Parsing Function
-python
-
-def parse_json():
-    # Clear previous results
-    output_text.delete(1.0, tk.END)
-    
-    # Get user input
-    url = input_link.get()
-    attributes = input_attribute.get()
-    
-    # Input validation
-    if not url or not attributes:
-        output_text.insert(tk.END, "Please fill all fields!\n")
-        return
-
-2. Recursive Search Algorithm
-python
-
-def search_in_json(obj, path):
-    results = []
-    keys = path.split('.')  # Split path into components
-    
-    if isinstance(obj, dict):
-        # Case 1: Current object is a dictionary
-        if keys[0] in obj:
-            if len(keys) == 1:
-                # Final key - add value to results
-                results.append(obj[keys[0]])
-            else:
-                # Nested keys - recursive search
-                nested_path = '.'.join(keys[1:])
-                nested_results = search_in_json(obj[keys[0]], nested_path)
-                results.extend(nested_results)
-        
-        # Search in all dictionary values
-        for value in obj.values():
-            if isinstance(value, (dict, list)):
-                results.extend(search_in_json(value, path))
-                
-    elif isinstance(obj, list):
-        # Case 2: Current object is a list
-        for item in obj:
-            if isinstance(item, (dict, list)):
-                results.extend(search_in_json(item, path))
-    
-    return results
-
-Search Algorithm Flowchart
-        for item in obj:
-            if isinstance(item, (dict, list)):
-                results.extend(search_in_json(item, path))
-    
-    return results
-
-Search Algorithm Flowchart
-# Modified: Show first 10 values
-for val in values[:10]:
-    output_text.insert(tk.END, f"  ✓ {val}\n")
+        if data_type == "html":
+            return response.content  # Бинарные данные для HTML
+        else:
+            return response.text     # Текст для XML/JSON
+    else:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return f.read()
 ```
 
-### Adding New Features
-The modular code structure makes it easy to add:
-- Export functionality
-- Additional search filters
-- Result sorting
-- Theme customization
+**Безопасность**:
+- Проверка HTTP статусов
+- Обработка кодировок файлов
+- Унифицированный интерфейс для разных источников
 
-## 🤝 Contributing
+### 4. HTML парсер
 
-Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
+```python
+def parse_html(self, content, query):
+    soup = BeautifulSoup(content, 'html.parser')
+    parts = query.split('.')
+    base_tag = parts[0].strip()
+    attrs = {}
+    
+    # Разбор сложных запросов типа "div.header.container"
+    for part in parts[1:]:
+        if '=' in part:
+            key, value = part.split('=', 1)
+            attrs[key.strip()] = value.strip()
+        else:
+            # Обработка классов
+            attrs['class'] = [part.strip()]
+    
+    return soup.find_all(base_tag, attrs=attrs)
+```
 
+**Поддерживаемые запросы**:
+- `a` - все ссылки
+- `div.header` - div с классом header
+- `div.id=main` - div с ID "main"
+- `img.avatar.small` - img с классами avatar и small
 
-<div align="center">
+### 5. XML парсер
 
-**Happy Parsing! 🚀**
+```python
+def parse_xml(self, content, query):
+    root = ET.fromstring(content)
+    
+    if query.startswith('//'):
+        # XPath-подобные запросы
+        elements = []
+        for elem in root.iter():
+            if self.match_xml_path(elem, query):
+                elements.append(elem)
+        return elements
+    else:
+        # Простой поиск по тегу
+        return root.findall(f'.//{query}')
+```
 
-</div>
+**Поддерживаемые запросы**:
+- `//item` - все элементы item
+- `//book/title` - title внутри book
+- `//div[@class="header"]` - div с атрибутом class
+
+### 6. JSON парсер
+
+```python
+def parse_json(self, content, query):
+    data = json.loads(content)
+    
+    def find_in_json(obj, path):
+        results = []
+        if isinstance(obj, dict):
+            for key, value in obj.items():
+                if path == '*' or key == path:
+                    results.append((key, value))
+                # Рекурсивный поиск во вложенных структурах
+                results.extend(find_in_json(value, path))
+        return results
+    
+    return find_in_json(data, query), data
+```
+
+**Поддерживаемые запросы**:
+- `users` - ключ "users"
+- `*.name` - все ключи "name" на любом уровне
+- `data.items` - ключ items внутри data
+
+### 7. Форматирование результатов
+
+Каждый тип данных имеет специализированный форматтер:
+
+```python
+def format_html_result(self, elements):
+    for element in elements:
+        # Извлечение атрибутов
+        element_attrs = element.attrs
+        # Форматирование текста
+        element_text = element.get_text(strip=True)
+        # Специальная обработка для ссылок и изображений
+```
+
+## 📝 Примеры использования
+
+### Пример 1: Парсинг HTML страницы
+
+1. **Выберите**: HTML → URL
+2. **Введите URL**: `https://example.com`
+3. **Запрос**: `a.button`
+4. **Результат**: Все ссылки с классом button
+
+### Пример 2: Анализ XML файла
+
+1. **Выберите**: XML → Файл
+2. **Выберите файл**: `data.xml`
+3. **Запрос**: `//item/title`
+4. **Результат**: Все заголовки внутри элементов item
+
+### Пример 3: Извлечение JSON данных
+
+1. **Выберите**: JSON → Файл
+2. **Выберите файл**: `config.json`
+3. **Запрос**: `*.email`
+4. **Результат**: Все email адреса в структуре
+
+## 🎨 Интерфейс пользователя
+
+### Основные элементы:
+- **Верхняя панель**: Выбор типа данных и источника
+- **Центральная область**: Поля ввода и параметры поиска
+- **Нижняя часть**: Результаты парсинга с прокруткой
+- **Панель кнопок**: Управление процессом
+
+### Особенности UI:
+- Адаптивный дизайн
+- Контекстные подсказки
+- Валидация ввода
+- Подробные сообщения об ошибках
+
+## ⚙️ Требования
+
+### Системные требования
+- **ОС**: Windows 7+, macOS 10.12+, Linux (любое дистрибутив)
+- **Память**: 512 MB RAM минимум
+- **Дисковое пространство**: 50 MB
+
+### Зависимости Python
+- **beautifulsoup4**: Парсинг HTML/XML
+- **requests**: HTTP клиент
+- **lxml**: Быстрый XML парсер (опционально)
+
+## 🐛 Отладка и решение проблем
+
+### Частые проблемы:
+
+1. **Ошибка подключения к URL**
+   - Проверьте интернет-соединение
+   - Убедитесь, что URL доступен
+
+2. **Проблемы с кодировкой файлов**
+   - Используйте UTF-8 кодировку
+   - Проверьте правильность формата файла
+
+3. **Элементы не найдены**
+   - Проверьте синтаксис запроса
+   - Убедитесь, что данные содержат искомые элементы
+
+### Логирование:
+Программа выводит подробные сообщения об ошибках в основном текстовом поле.
+
+## 🔧 Разработка и расширение
+
+### Добавление нового парсера:
+
+1. Создайте методы:
+```python
+def parse_new_format(self, content, query):
+    # логика парсинга
+    return results
+
+def format_new_result(self, elements):
+    # форматирование вывода
+    return formatted_text
+```
+
+2. Обновите UI и главную функцию парсинга
+
+### Структура для расширения:
+- Модульная архитектура
+- Четкое разделение ответственности
+- Унифицированные интерфейсы
+
+## 🤝 Вклад в проект
+
+Мы приветствуем вклад в развитие проекта! 
+
+### Как помочь:
+1. Сообщайте об ошибках через Issues
+2. Предлагайте новые функции
+3. Улучшайте документацию
+4. Создавайте pull requests
+
+### Стандарты кода:
+- PEP 8 стиль кодирования
+- Документирование всех функций
+- Тестирование новых функций
+
+## 📄 Лицензия
+
+Этот проект распространяется под лицензией MIT. Подробнее см. в файле LICENSE.
+
+## 📞 Поддержка
+
+Если у вас есть вопросы или предложения:
+- Создайте Issue на GitHub
+- Напишите на email: support@example.com
+
+---
+
+**Universal Data Parser** - мощный инструмент для разработчиков, аналитиков и всех, кто работает с структурированными данными. Быстро, удобно, эффективно! 🚀
